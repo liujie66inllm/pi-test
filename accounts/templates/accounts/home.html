@@ -1,0 +1,36 @@
+{% extends 'accounts/base.html' %}
+{% block title %}个人中心{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm mt-3">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">个人中心</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush mb-4">
+          <li class="list-group-item d-flex justify-content-between">
+            <span>用户名</span><strong>{{ user.username }}</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>邮箱</span><strong>{{ user.email|default:"未填写" }}</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>🐍 贪吃蛇最高分</span><strong class="text-success">{{ user.profile.high_score }}</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>注册时间</span><strong>{{ user.profile.created_at|date:"Y-m-d H:i" }}</strong>
+          </li>
+        </ul>
+
+        <form method="post" action="{% url 'update_score' %}" class="d-flex gap-2">
+          {% csrf_token %}
+          <input type="number" name="score" class="form-control" placeholder="提交本次游戏得分" min="0" required>
+          <button type="submit" class="btn btn-success text-nowrap">提交分数</button>
+        </form>
+        <div class="form-text text-muted">游戏结束后在此提交得分，系统会自动保存你的最高纪录。</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
